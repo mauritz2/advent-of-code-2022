@@ -1,5 +1,5 @@
 # Validated as correct solution
-with open("data.txt", "r") as f:
+with open("day_1_data.txt", "r") as f:
     calorie_sum = []
     data = f.readlines()
     current_elf_sum = 0

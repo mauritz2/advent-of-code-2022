@@ -2,12 +2,11 @@
 
 # Rock = A or X
 # Paper = B or Y
-# scissorss = C or Z   
+# scissors = C or Z   
 
 f = open("day_2_data.txt", "r")
 data = f.readlines()
 f.close()
-
 
 ### PART 1 ###
 # Confirmed correct

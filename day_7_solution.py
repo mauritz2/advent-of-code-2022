@@ -5,8 +5,6 @@ f = open("day_7_data.txt", "r")
 data = f.readlines()
 f.close()
 
-# PART 1 - Validated answer: 1543140
-
 def update_filepath(filepath: str, command: str) -> str:
     """
     Take a filepath and a linux file command as input: cd .. | cd {dir} | ls | cd /
@@ -85,6 +83,7 @@ def roll_up_folder_size(size_by_folder: dict) -> dict:
                         rolled_up_folder_size[path_to_sum] = value
     return rolled_up_folder_size
 
+# PART 1 - Validated answer: 1543140
 def part_1():
     size_by_folder = calculate_folder_size(data)
     size_by_folder_roll_up = roll_up_folder_size(size_by_folder)  
@@ -92,6 +91,7 @@ def part_1():
     small_folders_sum = sum(small_folders.values())
     print(f"The sum of the size of all folders with a size below 100,000 is {small_folders_sum:,}")
 
+# PART 1 - Validated answer: 1117448
 def part_2():
     # Find the smallest directory that, if deleted, would free up enough space on the filesystem to run the update
     total_space = 70000000
@@ -104,7 +104,7 @@ def part_2():
     size_by_folder_roll_up = roll_up_folder_size(size_by_folder)  
     deletable_folders = [v for v in size_by_folder_roll_up.values() if v > space_to_free_up]
     smallest_folder_size = min(deletable_folders)
-    print(f"The smallest folder we can delete to fit in the system update has size {smallest_folder_size}")
+    print(f"The smallest folder we can delete to fit in the system update has size {smallest_folder_size:,}")
 
 if __name__ == "__main__":
     part_1()

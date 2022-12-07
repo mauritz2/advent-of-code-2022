@@ -65,7 +65,9 @@ def roll_up_folder_size(size_by_folder: dict) -> dict:
     rolled_up_folder_size = {}
     for key in size_by_folder.keys():
         # Loop through all known paths in file system
-        folder_path_parts = key.split("/")
+        # Exclude the first list item after split to exclude [""] (the left-hand side of home dir "/")
+        # Otherwise the home directory gets double-counted 
+        folder_path_parts = key.split("/")[1:]
         for i in range(1, len(folder_path_parts) + 1):
             # For each path - iterate through all folders in the path
             path_to_sum = "/".join(folder_path_parts[:i])
@@ -90,5 +92,20 @@ def part_1():
     small_folders_sum = sum(small_folders.values())
     print(f"The sum of the size of all folders with a size below 100,000 is {small_folders_sum:,}")
 
+def part_2():
+    # Find the smallest directory that, if deleted, would free up enough space on the filesystem to run the update
+    total_space = 70000000
+    required_space_for_update = 30000000    
+    size_by_folder = calculate_folder_size(data)
+    used_space = sum(size_by_folder.values())
+    available_space = total_space - used_space
+    space_to_free_up = required_space_for_update - available_space
+
+    size_by_folder_roll_up = roll_up_folder_size(size_by_folder)  
+    deletable_folders = [v for v in size_by_folder_roll_up.values() if v > space_to_free_up]
+    smallest_folder_size = min(deletable_folders)
+    print(f"The smallest folder we can delete to fit in the system update has size {smallest_folder_size}")
+
 if __name__ == "__main__":
     part_1()
+    part_2()

@@ -6,10 +6,21 @@ data = list(map(lambda x: x.strip(), data))
 f.close()
 
 
-def is_visible_in_one_direction(trees:list[str], variable_axis_start: list[str], range_direction:int, variable_axis:str, fixed_axis_val:str, tree_val:int):
-    visible = False
+#def is_visible_in_one_direction(trees:list[str], variable_axis_start: list[str], range_direction:int, variable_axis:str, fixed_axis_val:str, tree_val:int):
+def is_visible_in_one_direction(trees:list[str], direction: str, row: str, col: str):
 
+    # Set variables 
+    match direction:
+        case "up":
+            variable_axis_start = row - 1
+            range_direction = -1
+            variable_axis = "row"
+            fixed_axis_val = col
+    tree_val = int(trees[row][col])
     range_end = -1 if range_direction == -1 else max(variable_axis_start)
+
+
+    visible = False
 
     #for index in range(variable_axis_start, range_end, range_direction):
     for index in range(variable_axis_start, range_end, range_direction):
@@ -31,29 +42,22 @@ def is_visible_in_one_direction(trees:list[str], variable_axis_start: list[str],
     return visible
 
 
-def is_visible(tree_val: int, tree_row: int, tree_col: int, trees: list[int]) -> bool:
-    print(f"\n\nLooking into ({tree_row}, {tree_col}): {tree_val}")
+def is_visible(tree_val: int, row: int, col: int, trees: list[int]) -> bool:
+    print(f"\n\nLooking into ({row}, {col}): {tree_val}")
 
     # Check if edge node 
-    if ((tree_row == 0) or (tree_row == len(trees)) or (tree_col == 0) or (tree_col == len(trees[0]))):
+    if ((row == 0) or (row == len(trees)) or (col == 0) or (col == len(trees[0]))):
         print("This is an edge node. It's visible")
         return True
 
     # Check up
-    variable_axis_start = tree_row - 1
-    range_direction = -1
-    variable_axis = "row"
-    fixed_axis_val = tree_col
-    tree_val = tree_val
+    #variable_axis_start = tree_row - 1
+    #range_direction = -1
+    #variable_axis = "row"
+    #fixed_axis_val = col
+    #tree_val = tree_val
 
-    visible_up = is_visible_in_one_direction(
-        trees=trees,
-        variable_axis_start=variable_axis_start,
-        range_direction=range_direction,
-        variable_axis=variable_axis,
-        fixed_axis_val=fixed_axis_val,
-        tree_val=tree_val)
-    
+    visible_up = is_visible_in_one_direction(trees=trees, direction="up", row=row, col=col)    
     
 
     # Check down
@@ -72,7 +76,7 @@ def part_1(trees):
         print(tree_row)
         print("\n\n")
         for col_index, tree_val in enumerate(tree_row):
-            if is_visible(tree_val=int(tree_val), tree_row=row_index, tree_col=col_index, trees=trees):
+            if is_visible(tree_val=int(tree_val), row=row_index, col=col_index, trees=trees):
                 visible += 1            
 
 

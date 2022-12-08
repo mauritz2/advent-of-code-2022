@@ -1,5 +1,3 @@
-import numpy as np
-
 f = open("day_8_data.txt", "r")
 data = f.readlines()
 data = list(map(lambda x: x.strip(), data))
@@ -7,8 +5,8 @@ f.close()
 
 def is_visible_in_direction(trees: list[str], direction: str, row: str, col: str):
     """
-    Calculates if a tree is visible_trees from a specific direction (i.e. if there are taller trees in that direction)
-    Returns True if visible_trees from the direction, otherwise False. 
+    Calculates if a tree is visible from a specific direction (i.e. if there are taller trees in that direction)
+    Returns True if visible from the direction, otherwise False. 
     For part 2 - also calculates and returns the scenic score (i.e. how many trees you can see from the given tree)
     """
     ### For Part 2 ###
@@ -52,7 +50,7 @@ def is_visible_in_direction(trees: list[str], direction: str, row: str, col: str
     tree_val = int(trees[row][col])
 
     # Check visibility in the defined direction
-    visible_trees = True
+    visible = True
     # Iterates over all the values in the defined direction
     for index in range(variable_axis_start, range_end, range_direction):
         ### For Part 2 ###
@@ -64,10 +62,10 @@ def is_visible_in_direction(trees: list[str], direction: str, row: str, col: str
             comparison_tree_val= int(trees[fixed_axis_val][index])
         if comparison_tree_val >= tree_val:
             # We found a taller tree in this direction. Tree is not visible_trees from this direction.
-            visible_trees = False
+            visible = False
             break
     
-    return visible_trees, scenic_score
+    return visible, scenic_score
 
 
 def is_visible(row: int, col: int, trees: list[int]) -> bool:
@@ -79,7 +77,7 @@ def is_visible(row: int, col: int, trees: list[int]) -> bool:
     is_visible_left, _ = is_visible_in_direction(trees=trees, direction="left", row=row, col=col)    
     is_visible_right, _ = is_visible_in_direction(trees=trees, direction="right", row=row, col=col)    
     is_visible_down, _ = is_visible_in_direction(trees=trees, direction="down", row=row, col=col)    
-    # If tree is visible_trees from any direction, return True. Otherwise return False.
+    # If tree is visible from any direction, return True. Otherwise return False.
     return True if True in [is_visible_up, is_visible_down, is_visible_left, is_visible_right] else False
 
 # PART 1 - Validated answer: 1690
@@ -89,7 +87,7 @@ def part_1(trees):
         for col_index in range(len(trees[0])):
             if is_visible(row=row_index, col=col_index, trees=trees):
                 visible_trees += 1
-    print(f"There are {visible_trees} visible_trees trees")            
+    print(f"There are {visible_trees} visible trees!")            
 
 # PART 1 - Validated answer: 535680
 def part_2(trees):
@@ -103,10 +101,9 @@ def part_2(trees):
             total_scenic = scenic_score_up * scenic_score_down * scenic_score_left * scenic_score_right
             scenic_scores.append(total_scenic)
     best_scenic = max(scenic_scores)
-    print(f"The best scenic score is {best_scenic}")
+    print(f"The best scenic score is {best_scenic}!")
 
 if __name__ == "__main__":
     part_1(trees=data)
     part_2(trees=data)
 
-    
